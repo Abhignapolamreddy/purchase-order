@@ -1,0 +1,322 @@
+<mvc:View
+    controllerName="dealermangement.controller.DealerDetails"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <Page
+        id="dealerDetailsPage"
+        title="Dealer Details"
+        showHeader="true">
+
+        <customHeader>
+            <Toolbar id="dealerDetailsToolbar">
+
+                <!-- BACK -->
+                <Button
+                    id="dealerDetailsBackButton"
+                    icon="sap-icon://nav-back"
+                    type="Transparent"
+                    press=".onBack"/>
+
+                <Title
+                    id="dealerDetailsTitle"
+                    text="Dealer Details"/>
+
+                <ToolbarSpacer
+                    id="dealerDetailsToolbarSpacer"/>
+
+                <!-- SUBMIT -->
+                <Button
+                    id="submitDealerButton"
+                    text="Submit"
+                    icon="sap-icon://paper-plane"
+                    type="Emphasized"
+                    press=".onSubmitDealer"/>
+
+                <!-- L1 APPROVE -->
+                <Button
+                    id="l1ApproveButton"
+                    text="L1 Approve"
+                    icon="sap-icon://accept"
+                    type="Emphasized"
+                    press=".onL1Approve"/>
+
+                <!-- L2 APPROVE -->
+                <Button
+                    id="l2ApproveButton"
+                    text="L2 Approve"
+                    icon="sap-icon://accept"
+                    type="Emphasized"
+                    press=".onL2Approve"/>
+
+                <!-- REJECT -->
+                <Button
+                    id="rejectDealerButton"
+                    text="Reject"
+                    icon="sap-icon://decline"
+                    type="Reject"
+                    press=".onRejectDealer"/>
+
+            </Toolbar>
+        </customHeader>
+
+
+        <content>
+
+            <VBox
+                id="dealerDetailsContainer"
+                width="100%">
+
+                <!-- ================================= -->
+                <!-- DEALER HEADER -->
+                <!-- ================================= -->
+
+                <VBox
+                    id="dealerHeaderSection"
+                    class="sapUiMediumMargin">
+
+                    <Title
+                        id="dealerNameeHeader"
+                        text="{dealerName}"
+                        level="H2"/>
+
+                    <ObjectStatus
+                        id="dealerHeaderStatus"
+                        text="{status}"
+                        state="{
+                            path: 'status',
+                            formatter: '.formatStatusState'
+                        }"/>
+
+                </VBox>
+
+
+                <!-- ================================= -->
+                <!-- BASIC INFORMATION -->
+                <!-- ================================= -->
+
+                <Panel
+                    id="basicInformationPanel"
+                    headerText="Basic Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom">
+
+                    <VBox
+                        id="basicInformationContent"
+                        class="sapUiMediumMargin">
+
+                        <Label
+                            id="detailsDealerCodeLabel"
+                            text="Dealer Code"/>
+
+                        <Text
+                            id="detailsDealerCodeText"
+                            text="{dealerCode}"
+                            class="sapUiSmallMarginBottom"/>
+
+
+                        <Label
+                            id="detailsDealerNameLabel"
+                            text="Dealer Name"/>
+
+                        <Text
+                            id="detailsDealerNameText"
+                            text="{dealerName}"
+                            class="sapUiSmallMarginBottom"/>
+
+
+                        <Label
+                            id="detailsDealerTypeLabel"
+                            text="Dealer Type"/>
+
+                        <Text
+                            id="detailsDealerTypeText"
+                            text="{dealerType}"
+                            class="sapUiSmallMarginBottom"/>
+
+
+                        <Label
+                            id="detailsStatusLabel"
+                            text="Status"/>
+
+                        <ObjectStatus
+                            id="detailsStatusObject"
+                            text="{status}"
+                            state="{
+                                path: 'status',
+                                formatter: '.formatStatusState'
+                            }"/>
+
+                    </VBox>
+
+                </Panel>
+
+
+                <!-- ================================= -->
+                <!-- TAX INFORMATION -->
+                <!-- ================================= -->
+
+                <Panel
+                    id="taxInformationPanel"
+                    headerText="Tax Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom">
+
+                    <VBox
+                        id="taxInformationContent"
+                        class="sapUiMediumMargin">
+
+                        <Label
+                            id="detailsGstLabel"
+                            text="GST Number"/>
+
+                        <Text
+                            id="detailsGstText"
+                            text="{gstNumber}"
+                            class="sapUiSmallMarginBottom"/>
+
+
+                        <Label
+                            id="detailsPanLabel"
+                            text="PAN Number"/>
+
+                        <Text
+                            id="detailsPanText"
+                            text="{panNumber}"/>
+
+                    </VBox>
+
+                </Panel>
+
+
+                <!-- ================================= -->
+                <!-- CONTACT INFORMATION -->
+                <!-- ================================= -->
+
+                <Panel
+                    id="contactInformationPanel"
+                    headerText="Contact Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom">
+
+                    <VBox
+                        id="contactInformationContent"
+                        class="sapUiMediumMargin">
+
+                        <Label
+                            id="detailsPhoneLabel"
+                            text="Phone"/>
+
+                        <Text
+                            id="detailsPhoneText"
+                            text="{phone}"
+                            class="sapUiSmallMarginBottom"/>
+
+
+                        <Label
+                            id="detailsEmailLabel"
+                            text="Email"/>
+
+                        <Text
+                            id="detailsEmailText"
+                            text="{email}"/>
+
+                    </VBox>
+
+                </Panel>
+
+
+                <!-- ================================= -->
+                <!-- ADDRESS INFORMATION -->
+                <!-- ================================= -->
+
+                <Panel
+                    id="addressInformationPanel"
+                    headerText="Address Information"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom">
+
+                    <VBox
+                        id="addressInformationContent"
+                        class="sapUiMediumMargin">
+
+                        <Label
+                            id="detailsAddressLabel"
+                            text="Address"/>
+
+                        <Text
+                            id="detailsAddressText"
+                            text="{address}"
+                            class="sapUiSmallMarginBottom"/>
+
+
+                        <Label
+                            id="detailsCityLabel"
+                            text="City"/>
+
+                        <Text
+                            id="detailsCityText"
+                            text="{city}"
+                            class="sapUiSmallMarginBottom"/>
+
+
+                        <Label
+                            id="detailsStateLabel"
+                            text="State"/>
+
+                        <Text
+                            id="detailsStateText"
+                            text="{state}"
+                            class="sapUiSmallMarginBottom"/>
+
+
+                        <Label
+                            id="detailsCountryLabel"
+                            text="Country"/>
+
+                        <Text
+                            id="detailsCountryText"
+                            text="{country}"/>
+
+                    </VBox>
+
+                </Panel>
+
+
+                <!-- ================================= -->
+                <!-- ADDITIONAL INFORMATION -->
+                <!-- ================================= -->
+
+                <Panel
+                    id="additionalInformationPanel"
+                    headerText="Additional Information"
+                    expandable="true"
+                    expanded="true">
+
+                    <VBox
+                        id="additionalInformationContent"
+                        class="sapUiMediumMargin">
+
+                        <Label
+                            id="detailsRemarksLabel"
+                            text="Remarks"/>
+
+                        <Text
+                            id="detailsRemarksText"
+                            text="{remarks}"/>
+
+                    </VBox>
+
+                </Panel>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+
+</mvc:View>
