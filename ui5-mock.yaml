@@ -17,7 +17,8 @@ server:
           url: https://ui5.sap.com
         backend:
           - path: /odata
-            url: https://6a738d3btrial-dev-tafe-srv.cfapps.us10-003.hana.ondemand.com
+            url: https://499aaebftrial-dev-tafe-srv.cfapps.us10-003.hana.ondemand.com
+            destination: tafenewbacks
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:

@@ -35,7 +35,8 @@ server:
         ignoreCertErrors: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
         backend:
           - path: /odata
-            url: https://6a738d3btrial-dev-tafe-srv.cfapps.us10-003.hana.ondemand.com
+            url: https://499aaebftrial-dev-tafe-srv.cfapps.us10-003.hana.ondemand.com
+            destination: tafenewbacks
     - name: sap-fe-mockserver
       beforeMiddleware: csp
       configuration:

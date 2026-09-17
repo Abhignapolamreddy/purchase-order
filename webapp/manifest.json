@@ -94,60 +94,44 @@
       ]
     },
     "routing": {
-
-  "config": {
-
-    "routerClass": "sap.m.routing.Router",
-    "controlAggregation": "pages",
-    "controlId": "app",
-    "transition": "slide",
-    "type": "View",
-    "viewType": "XML",
-    "path": "dealermangement.view",
-    "async": true,
-    "viewPath": "dealermangement.view"
-
-  },
-
-  "routes": [
-
-    {
-      "name": "RouteDealer",
-      "pattern": ":?query:",
-      "target": [
-        "TargetDealer"
-      ]
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "dealermangement.view",
+        "async": true,
+        "viewPath": "dealermangement.view"
+      },
+      "routes": [
+        {
+          "name": "RouteDealer",
+          "pattern": ":?query:",
+          "target": [
+            "TargetDealer"
+          ]
+        },
+        {
+          "name": "DealerDetails",
+          "pattern": "DealerDetails/{dealerId}",
+          "target": [
+            "TargetDealerDetails"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetDealer": {
+          "id": "Dealer",
+          "name": "Dealer"
+        },
+        "TargetDealerDetails": {
+          "id": "DealerDetails",
+          "name": "DealerDetails"
+        }
+      }
     },
-
-    {
-      "name": "DealerDetails",
-      "pattern": "DealerDetails/{dealerId}",
-      "target": [
-        "TargetDealerDetails"
-      ]
-    }
-
-  ],
-
-  "targets": {
-
-    "TargetDealer": {
-
-      "id": "Dealer",
-      "name": "Dealer"
-
-    },
-
-    "TargetDealerDetails": {
-
-      "id": "DealerDetails",
-      "name": "DealerDetails"
-
-    }
-
-  }
-
-},
     "rootView": {
       "viewName": "dealermangement.view.App",
       "type": "XML",

@@ -24,8 +24,12 @@
             </Annotation>
             <EntityContainer Name="EntityContainer">
                 <EntitySet Name="Dealers" EntityType="DealerService.Dealers">
+                    <NavigationPropertyBinding Path="region" Target="Regions"/>
                     <NavigationPropertyBinding Path="documents" Target="DealerDocuments"/>
                     <NavigationPropertyBinding Path="approvalHistory" Target="OnboardingApprovals"/>
+                </EntitySet>
+                <EntitySet Name="Regions" EntityType="DealerService.Regions">
+                    <NavigationPropertyBinding Path="dealers" Target="Dealers"/>
                 </EntitySet>
                 <EntitySet Name="DealerDocuments" EntityType="DealerService.DealerDocuments">
                     <NavigationPropertyBinding Path="dealer" Target="Dealers"/>
@@ -34,6 +38,8 @@
                 <EntitySet Name="OnboardingApprovals" EntityType="DealerService.OnboardingApprovals">
                     <NavigationPropertyBinding Path="dealer" Target="Dealers"/>
                 </EntitySet>
+                <FunctionImport Name="getCitiesByState" Function="DealerService.getCitiesByState"/>
+                <FunctionImport Name="geocodeAddress" Function="DealerService.geocodeAddress"/>
             </EntityContainer>
             <EntityType Name="Dealers">
                 <Key>
@@ -53,6 +59,10 @@
                 <Property Name="address" Type="Edm.String" MaxLength="250"/>
                 <Property Name="city" Type="Edm.String" MaxLength="50"/>
                 <Property Name="state" Type="Edm.String" MaxLength="50"/>
+                <NavigationProperty Name="region" Type="DealerService.Regions" Partner="dealers">
+                    <ReferentialConstraint Property="region_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="region_ID" Type="Edm.Guid"/>
                 <Property Name="country" Type="Edm.String" MaxLength="50"/>
                 <Property Name="dealerType" Type="Edm.String"/>
                 <Property Name="status" Type="Edm.String" DefaultValue="PENDING"/>
@@ -64,6 +74,16 @@
                 <NavigationProperty Name="approvalHistory" Type="Collection(DealerService.OnboardingApprovals)" Partner="dealer">
                     <OnDelete Action="Cascade"/>
                 </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Regions">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="regionCode" Type="Edm.String" MaxLength="10"/>
+                <Property Name="regionName" Type="Edm.String" MaxLength="50"/>
+                <NavigationProperty Name="dealers" Type="Collection(DealerService.Dealers)" Partner="region"/>
+                <Property Name="totalPurchaseValue" Type="Edm.Int32"/>
             </EntityType>
             <EntityType Name="DealerDocuments">
                 <Key>
@@ -89,7 +109,7 @@
                 <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
                 <Property Name="productCode" Type="Edm.String" MaxLength="20"/>
                 <Property Name="productName" Type="Edm.String" MaxLength="100"/>
-                <Property Name="category" Type="Edm.String" MaxLength="50"/>
+                <Property Name="category_ID" Type="Edm.Guid"/>
                 <Property Name="active" Type="Edm.Boolean" DefaultValue="true"/>
                 <Property Name="unitPrice" Type="Edm.Decimal" Precision="15" Scale="2"/>
             </EntityType>
@@ -112,6 +132,11 @@
                 </NavigationProperty>
                 <Property Name="dealer_ID" Type="Edm.Guid"/>
             </EntityType>
+            <ComplexType Name="GeocodeResult">
+                <Property Name="latitude" Type="Edm.Double"/>
+                <Property Name="longitude" Type="Edm.Double"/>
+                <Property Name="displayName" Type="Edm.String"/>
+            </ComplexType>
             <Action Name="submitDealer" IsBound="true">
                 <Parameter Name="in" Type="DealerService.Dealers"/>
                 <ReturnType Type="Edm.String"/>
@@ -137,6 +162,14 @@
                 <Parameter Name="remarks" Type="Edm.String" MaxLength="500"/>
                 <ReturnType Type="Edm.String"/>
             </Action>
+            <Function Name="getCitiesByState" IsBound="false" IsComposable="false">
+                <Parameter Name="state" Type="Edm.String"/>
+                <ReturnType Type="Collection(Edm.String)" Nullable="true"/>
+            </Function>
+            <Function Name="geocodeAddress" IsBound="false" IsComposable="false">
+                <Parameter Name="query" Type="Edm.String"/>
+                <ReturnType Type="DealerService.GeocodeResult"/>
+            </Function>
             <Annotations Target="DealerService.Dealers/ID">
                 <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
             </Annotations>
@@ -232,6 +265,15 @@
                     </Collection>
                 </Annotation>
             </Annotations>
+            <Annotations Target="DealerService.Regions/ID">
+                <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
+            </Annotations>
+            <Annotations Target="DealerService.Regions/regionCode">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
+            <Annotations Target="DealerService.Regions/regionName">
+                <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+            </Annotations>
             <Annotations Target="DealerService.DealerDocuments/ID">
                 <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
             </Annotations>
@@ -266,10 +308,10 @@
                 <Annotation Term="Core.Description" String="User's unique ID"/>
                 <Annotation Term="Common.Label" String="Changed By"/>
             </Annotations>
-            <Annotations Target="DealerService.Products/productCode">
+            <Annotations Target="DealerService.Products/productName">
                 <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
             </Annotations>
-            <Annotations Target="DealerService.Products/productName">
+            <Annotations Target="DealerService.Products/category_ID">
                 <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
             </Annotations>
             <Annotations Target="DealerService.OnboardingApprovals/ID">
@@ -302,6 +344,16 @@
                 <Annotation Term="Core.Computed" Bool="true"/>
                 <Annotation Term="Core.Description" String="User's unique ID"/>
                 <Annotation Term="Common.Label" String="Changed By"/>
+            </Annotations>
+            <Annotations Target="DealerService.getCitiesByState(Edm.String)/state">
+                <Annotation Term="Core.OptionalParameter">
+                    <Record Type="Core.OptionalParameterType"/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="DealerService.geocodeAddress(Edm.String)/query">
+                <Annotation Term="Core.OptionalParameter">
+                    <Record Type="Core.OptionalParameterType"/>
+                </Annotation>
             </Annotations>
         </Schema>
     </edmx:DataServices>

@@ -173,7 +173,6 @@ sap.ui.define([
                 }
             },
 
-
             _getDealerContext: function () {
 
                 const oContext =

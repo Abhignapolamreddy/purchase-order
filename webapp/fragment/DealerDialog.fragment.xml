@@ -25,10 +25,6 @@
                     id="dealerForm"
                     class="sapUiMediumMargin">
 
-                    <!-- ================================================= -->
-                    <!-- BASIC INFORMATION -->
-                    <!-- ================================================= -->
-
                     <Title
                         id="basicInformationTitle"
                         text="Basic Information"
@@ -81,10 +77,6 @@
                     </Select>
 
 
-                    <!-- ================================================= -->
-                    <!-- TAX INFORMATION -->
-                    <!-- ================================================= -->
-
                     <Title
                         id="taxInformationTitle"
                         text="Tax Information"
@@ -122,10 +114,6 @@
                         valueStateText="Enter a valid PAN number"/>
 
 
-                    <!-- ================================================= -->
-                    <!-- CONTACT INFORMATION -->
-                    <!-- ================================================= -->
-
                     <Title
                         id="contactInformationTitle"
                         text="Contact Information"
@@ -162,10 +150,6 @@
                         width="100%"/>
 
 
-                    <!-- ================================================= -->
-                    <!-- ADDRESS INFORMATION -->
-                    <!-- ================================================= -->
-
                     <Title
                         id="addressInformationTitle"
                         text="Address Information"
@@ -182,20 +166,48 @@
                         placeholder="Enter complete address"
                         rows="3"
                         maxLength="250"
-                        width="100%"/>
+                        width="100%"
+                        change=".onAddressChange"/>
 
 
-                    <Label
-                        id="cityLabel"
-                        text="City"
-                        class="sapUiSmallMarginTop"/>
+                    <Text
+                        id="geocodeStatusText"
+                        text="{address>/geocodeStatus}"
+                        visible="{= !!${address>/geocodeStatus} }"
+                        class="sapUiTinyMarginTop"/>
 
-                    <Input
-                        id="cityInnput"
-                        value="{createDealer>/city}"
-                        placeholder="Enter city"
-                        maxLength="50"
-                        width="100%"/>
+
+                    <HBox
+                        id="locationActionsBox"
+                        width="100%"
+                        alignItems="Center"
+                        class="sapUiTinyMarginTop">
+
+                        <Button
+                            id="validateLocationButton"
+                            text="Validate Location"
+                            icon="sap-icon://compare"
+                            type="Transparent"
+                            press=".onValidateLocation"/>
+
+                        <core:Icon
+                            id="locationValidIcon"
+                            src="{address>/locationValidIcon}"
+                            color="{address>/locationValidIconColor}"
+                            visible="{= !!${address>/locationValidIcon} }"
+                            size="1.4rem"
+                            class="sapUiTinyMarginBegin"/>
+
+                    </HBox>
+
+
+                    <Button
+                        id="viewOnMapButton"
+                        text="View on Map"
+                        icon="sap-icon://map"
+                        type="Transparent"
+                        class="sapUiTinyMarginTop sapUiSmallMarginBottom"
+                        press=".onViewOnMap"/>
 
 
                     <Label
@@ -203,12 +215,42 @@
                         text="State"
                         class="sapUiSmallMarginTop"/>
 
-                    <Input
+                    <Select
                         id="stateInnput"
-                        value="{createDealer>/state}"
-                        placeholder="Enter state"
-                        maxLength="50"
-                        width="100%"/>
+                        selectedKey="{createDealer>/state}"
+                        width="100%"
+                        forceSelection="false"
+                        items="{address>/states}"
+                        change=".onStateChange">
+
+                        <core:Item
+                            id="stateItemTemplate"
+                            key="{address>key}"
+                            text="{address>text}"/>
+
+                    </Select>
+
+
+                    <Label
+                        id="cityLabel"
+                        text="City"
+                        class="sapUiSmallMarginTop"/>
+
+                    <Select
+                        id="cityInnput"
+                        selectedKey="{createDealer>/city}"
+                        width="100%"
+                        enabled="false"
+                        forceSelection="false"
+                        items="{address>/filteredCities}"
+                        change=".onCityChange">
+
+                        <core:Item
+                            id="cityItemTemplate"
+                            key="{address>key}"
+                            text="{address>text}"/>
+
+                    </Select>
 
 
                     <Label
@@ -221,12 +263,9 @@
                         value="{createDealer>/country}"
                         placeholder="Enter country"
                         maxLength="50"
-                        width="100%"/>
+                        width="100%"
+                        change=".onAddressChange"/>
 
-
-                    <!-- ================================================= -->
-                    <!-- ADDITIONAL INFORMATION -->
-                    <!-- ================================================= -->
 
                     <Title
                         id="additionalInformationTitle"
@@ -247,8 +286,6 @@
                         width="100%"/>
 
 
-                    <!-- Bottom spacing -->
-
                     <VBox
                         id="formBottomSpace"
                         class="sapUiSmallMarginBottom"/>
@@ -259,10 +296,6 @@
 
         </content>
 
-
-        <!-- ================================================= -->
-        <!-- FOOTER -->
-        <!-- ================================================= -->
 
         <beginButton>
 

@@ -60,7 +60,6 @@
                         type="Emphasized"
                         press=".onCreateDealer"/>
 
-
                     <Button
                         id="editDealerButton"
                         text="Edit"
@@ -68,7 +67,6 @@
                         enabled="false"
                         press=".onEditDealer"
                         class="sapUiTinyMarginBegin"/>
-
 
                     <Button
                         id="multipleEditButton"
@@ -90,10 +88,7 @@
 
                 </OverflowToolbar>
 
-
-                <!-- ================================================= -->
                 <!-- FILTER BAR -->
-                <!-- ================================================= -->
 
                 <OverflowToolbar
                     id="dealerFilterToolbar"
@@ -269,18 +264,26 @@
 
                 <!-- ================================================= -->
                 <!-- DEALER TABLE -->
+                <!--                                                   -->
+                <!-- fixedLayout="Strict" keeps every column at        -->
+                <!-- exactly its declared width instead of stretching  -->
+                <!-- to fill wide screens - narrower widths below give -->
+                <!-- the table visible breathing room / whitespace.    -->
                 <!-- ================================================= -->
 
                 <Table
                     id="dealerTable"
                     width="100%"
+                    fixedLayout="true"
                     mode="MultiSelect"
+                    class="sapUiSmallMargin"
                     growing="true"
                     growingThreshold="15"
                     growingScrollToLoad="true"
                     inset="false"
                     sticky="ColumnHeaders"
                     selectionChange=".onSelectionChange"
+                    updateFinished=".onDealerTableUpdateFinished"
                     items="{
                         path: '/Dealers',
                         parameters: {
@@ -300,7 +303,7 @@
 
                         <Column
                             id="dealerCodeColumn"
-                            width="8rem">
+                            width="7rem">
 
                             <Text
                                 id="dealerCodeHeader"
@@ -313,7 +316,7 @@
 
                         <Column
                             id="dealerNameColumn"
-                            width="15rem">
+                            width="11rem">
 
                             <Text
                                 id="dealerNameHeader"
@@ -326,7 +329,7 @@
 
                         <Column
                             id="dealerTypeColumn"
-                            width="10rem"
+                            width="7.5rem"
                             demandPopin="true"
                             minScreenWidth="700px"
                             popinDisplay="Inline">
@@ -342,7 +345,7 @@
 
                         <Column
                             id="gstColumn"
-                            width="13rem"
+                            width="9.5rem"
                             demandPopin="true"
                             minScreenWidth="900px"
                             popinDisplay="Inline">
@@ -358,7 +361,7 @@
 
                         <Column
                             id="panColumn"
-                            width="11rem"
+                            width="8rem"
                             demandPopin="true"
                             minScreenWidth="1000px"
                             popinDisplay="Inline">
@@ -374,7 +377,7 @@
 
                         <Column
                             id="phoneColumn"
-                            width="11rem"
+                            width="8rem"
                             demandPopin="true"
                             minScreenWidth="900px"
                             popinDisplay="Inline">
@@ -390,7 +393,7 @@
 
                         <Column
                             id="locationColumn"
-                            width="15rem"
+                            width="11rem"
                             demandPopin="true"
                             minScreenWidth="1000px"
                             popinDisplay="Inline">
@@ -406,7 +409,7 @@
 
                         <Column
                             id="statusColumn"
-                            width="10rem"
+                            width="7.5rem"
                             demandPopin="true"
                             minScreenWidth="700px"
                             popinDisplay="Inline">
@@ -546,6 +549,9 @@
 
                                 <!-- ================================================= -->
                                 <!-- 6 - LOCATION -->
+                                <!-- Editable in Edit/Multiple Edit mode as before. -->
+                                <!-- When read-only, clicking the field itself opens -->
+                                <!-- a map (wired in the controller, no extra icon). -->
                                 <!-- ================================================= -->
 
                                 <Input
@@ -559,7 +565,7 @@
 
 
                                 <!-- ================================================= -->
-                                <!-- 7 - STATUS -->
+                                
                                 <!-- ================================================= -->
 
                                 <ObjectStatus
